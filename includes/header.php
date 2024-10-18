@@ -38,10 +38,16 @@
                                 <a class="nav-link" href="../index.php">Accueil</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="country.php">Notre Pays</a>
+                                <a class="nav-link" href="country.php">Pays</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="culture.php">Notre Culture</a>
+                                <a class="nav-link" href="culture.php">Culture</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="contact.php">Contact</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="../index.php">Déconnexion</a>
                             </li>
                         <?php endif; ?>
                 </ul>

@@ -1,0 +1,37 @@
+body {
+    background-color: blanchedalmond;
+}
+
+img {
+    width: 376px;
+    /* Largeur fixe de l'image */
+    height: 211px;
+    /* Hauteur fixe de l'image */
+    object-fit: cover;
+    /* Assure que l'image remplit l'espace sans déformation */
+    margin-bottom: 20px;
+    /* Marge en bas de l'image pour espacer du texte */
+}
+
+.navbar-flag {
+    width: 100px;
+    height: 80px;
+    object-fit: contain;
+    /* Assure que le drapeau ne soit pas déformé */
+    margin-bottom: 0;
+    /* Pas de marge en dessous */
+}
+
+.section {
+    margin-bottom: 100px;
+    /* Marge entre les sections */
+}
+
+.navbar {
+    background: linear-gradient(90deg, rgb(252, 151, 20), rgb(255, 0, 0));
+    /* Dégradé rouge à gauche vers jaune à droite */
+}
+
+.btn-primary {
+    margin-bottom: 200px;
+}

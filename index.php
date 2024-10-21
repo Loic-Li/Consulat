@@ -1,7 +1,9 @@
-<!-- index.php -->
-<?php $cssFile='index' ?>
-<?php include 'includes/header.php'; ?>
-
+<?php
+session_start();
+$isLoggedIn = isset($_SESSION['user_id']);
+$cssFile = 'index';
+include 'includes/header.php';
+?>
 <!-- Contenu principal -->
 <div class="container content-wrapper">
     <div class="row align-items-center">

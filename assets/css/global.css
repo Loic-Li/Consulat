@@ -1,0 +1,30 @@
+body {
+    background-color: blanchedalmond;
+}
+
+.navbar-custom {
+    background: linear-gradient(90deg, rgb(252, 151, 20), rgb(255, 0, 0));
+}
+
+.btn-custom {
+    background-color: orangered; /* Couleur de fond */
+    color: black; /* Couleur du texte */
+    border: 1px solid black; /* Bordure */
+}
+
+.btn-custom:hover {
+    background-color: #e6e6e6; /* Couleur au survol */
+    color: black; /* Couleur du texte au survol */
+}
+
+.navbar-flag {
+    width: 100px;
+    height: 80px;
+    object-fit: contain;
+    margin-bottom: 0;
+}
+
+/* Espacement du nav */
+nav {
+    margin-bottom: 5%;
+}

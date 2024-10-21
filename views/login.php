@@ -1,13 +1,33 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Connexion</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-</head>
-<body>
+<?php
+    $cssFile = 'form'; // Ajouter un fichier CSS spécifique si besoin
+    include '../includes/header.php'; // Inclure le header
+?>
 
-</body>
-</html>
+<div class="container mt-5 d-flex justify-content-center">
+    <div class="col-md-6 p-4 rounded shadow-sm custom-form-background">
+        <h2 class="text-center mb-4">Connexion</h2>
+        <form action="../config/login_process.php" method="POST" class="needs-validation" novalidate>
+            <div class="mb-3">
+                <label for="email" class="form-label">Adresse e-mail</label>
+                <input type="email" class="form-control" id="email" name="email" required>
+                <div class="invalid-feedback">
+                    Veuillez entrer une adresse e-mail valide.
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="password" class="form-label">Mot de passe</label>
+                <input type="password" class="form-control" id="password" name="password" required>
+                <div class="invalid-feedback">
+                    Veuillez entrer votre mot de passe.
+                </div>
+            </div>
+
+            <div class="d-grid">
+                <button type="submit" class="btn btn-primary">Se connecter</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<?php include '../includes/footer.php'; // Inclure le footer ?>

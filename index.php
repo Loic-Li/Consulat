@@ -19,4 +19,7 @@
 </div>
 
 
-<?php include 'includes/footer.php'; ?>
+<?php
+    $jsFile = "index";
+    include 'includes/footer.php';
+?>

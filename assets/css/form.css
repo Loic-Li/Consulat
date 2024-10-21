@@ -1,0 +1,21 @@
+body {
+    background-color: blanchedalmond;
+}
+
+.navbar-custom {
+    background: linear-gradient(90deg, rgb(252, 151, 20), rgb(255, 0, 0));
+    /* Dégradé rouge à gauche vers jaune à droite */
+}
+
+.custom-form-background {
+    background-color: blanchedalmond; /* Couleur du cadre du formulaire */
+    border: 1px solid #ccc;    /* Bordure légère autour du formulaire */
+    padding: 20px;             /* Ajouter du padding à l'intérieur */
+    border-radius: 8px;        /* Légèrement arrondi */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Ombre légère */
+}
+
+/* Ajout d'un peu de marge au formulaire */
+.container {
+    margin-bottom: 50px;
+}

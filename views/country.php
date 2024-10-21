@@ -26,6 +26,22 @@
         <section class="section">
             <div class="row align-items-center">
                 <div class="col-md-6">
+                    <img src="../assets/img/globe-china.png" alt="Globe montrant la chine" class="img-fluid globe-china-img">
+                </div>
+                <div class="col-md-6">
+                    <ul>
+                        <li>Monnaie    : Renminbi (RMB)</li>
+                        <li>Langue     : Mandarin</li>
+                        <li>Superficie  : 9,596,961 km²</li>
+                        <li>Population : 1,41 milliard d'habitants</li>
+                        <li>Situation politique : État socialiste</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        <section class="section">
+            <div class="row align-items-center">
+                <div class="col-md-6">
                     <img src="../assets/img/geographie_img.png" alt="Géographie de la Chine"
                         class="img-fluid geograpgie-img">
                 </div>

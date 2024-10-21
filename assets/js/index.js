@@ -5,9 +5,8 @@ country.addEventListener('click', function () {
     window.location.href = 'views/country.php';
 });
 login.addEventListener('click', function () {
-    window.location.href = 'login.php';
+    window.location.href = 'views/login.php';
 });
 sign.addEventListener('click', function () {
-    window.location.href = 'register.php';
+    window.location.href = 'views/register.php';
 });
-

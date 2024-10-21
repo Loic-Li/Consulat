@@ -10,7 +10,7 @@
     <?php
         // Déterminer quel CSS charger
         $basePath = (strpos($_SERVER['SCRIPT_NAME'], '/views/') !== false) ? '../' : '';
-        
+
         if (isset($cssFile)) {
             echo '<link rel="stylesheet" href="' . $basePath . 'assets/css/' . htmlspecialchars($cssFile) . '.css">';
         }
@@ -47,7 +47,10 @@
                                 <a class="nav-link" href="contact.php">Contact</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="../index.php">Déconnexion</a>
+                                <a class="nav-link" href="#">Mon Compte</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Déconnexion</a>
                             </li>
                         <?php endif; ?>
                 </ul>

@@ -6,5 +6,4 @@ $dbname = "consulat"; // le nom de ta base de données
 
 // Créer la connexion
 $conn = new mysqli($servername, $username, $password, $dbname);
-
 ?>

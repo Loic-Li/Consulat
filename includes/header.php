@@ -54,10 +54,10 @@
                         </li>
                     <?php else: ?> <!-- Si l'utilisateur n'est pas connecté -->
                         <li class="nav-item">
-                            <a class="btn btn-custom me-2 login-in" href="../views/login.php">Connexion</a>
+                            <a class="btn btn-custom me-2 login-in" href="<?php echo $basePath; ?>views/login.php">Connexion</a>
                         </li>
                         <li class="nav-item">
-                            <a class="btn btn-custom sign-in" href="../views/register.php">Inscription</a>
+                            <a class="btn btn-custom sign-in" href="<?php echo $basePath; ?>views/register.php">Inscription</a>
                         </li>
                     <?php endif; ?>
                 </ul>

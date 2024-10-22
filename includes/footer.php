@@ -10,7 +10,6 @@
     if (isset($jsFile)) {
         echo '<script src="' . $basePath . 'assets/js/' . htmlspecialchars($jsFile) . '.js"></script>';
     }
-    echo '<script src="' . $basePath . 'assets/js/global.js"></script>';
 ?>
 
 

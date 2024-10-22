@@ -6,7 +6,7 @@
 <div class="container mt-5 d-flex justify-content-center">
     <div class="col-md-6 p-4 rounded shadow-sm custom-form-background">
         <h2 class="text-center mb-4">Connexion</h2>
-        <form action="../config/login_process.php" method="POST" class="needs-validation" novalidate>
+        <form action="../controllers/login_controller.php" method="POST" class="needs-validation" novalidate>
             <div class="mb-3">
                 <label for="email" class="form-label">Adresse e-mail</label>
                 <input type="email" class="form-control" id="email" name="email" required>

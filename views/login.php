@@ -1,4 +1,5 @@
 <?php
+    $title = 'Connexion';
     $cssFile = 'form'; // Ajouter un fichier CSS spécifique si besoin
     include '../includes/header.php'; // Inclure le header
 ?>

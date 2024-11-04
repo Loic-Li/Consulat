@@ -1,4 +1,5 @@
 <?php
+$title = 'Inscription';
 $cssFile = 'form';
 include '../includes/header.php';
 ?>

@@ -1,6 +1,7 @@
 <?php
 session_start();
 $isLoggedIn = isset($_SESSION['user_id']);
+$title = 'Accueil';
 $cssFile = 'index';
 include 'includes/header.php';
 ?>

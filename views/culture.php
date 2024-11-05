@@ -1,4 +1,7 @@
-<?php $cssFile='culture' ?>
+<?php
+session_start();
+$isLoggedIn = isset($_SESSION['user_id']);
+$cssFile='culture' ?>
 <?php include '../includes/header.php'; ?>
 
     <header class="text-center py-5">

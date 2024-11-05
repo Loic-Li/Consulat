@@ -1,0 +1,8 @@
+.form-container {
+    max-width: 600px; /* Largeur maximale du formulaire */
+    margin: 50px auto; /* Marges supérieure et inférieure, centré */
+    background-color: #ffffff; /* Couleur d'arrière-plan du formulaire */
+    padding: 20px; /* Espacement intérieur */
+    border-radius: 8px; /* Coins arrondis */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Ombre */
+}

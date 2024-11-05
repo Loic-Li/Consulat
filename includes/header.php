@@ -39,19 +39,19 @@
                 <ul class="navbar-nav ms-auto">
                     <?php if ($isLoggedIn): ?> <!-- Si l'utilisateur est connecté -->
                         <li class="nav-item">
-                            <a class="nav-link" href="../views/index.php">Accueil</a>
+                            <a class="nav-link" href="<?php echo $basePath; ?>index.php">Accueil</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="../views/country.php">Pays</a>
+                            <a class="nav-link" href="<?php echo $basePath; ?>views/country.php">Pays</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="../views/culture.php">Culture</a>
+                            <a class="nav-link" href="<?php echo $basePath; ?>views/culture.php">Culture</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="../views/Dashboard.php">Mon Compte</a>
+                            <a class="nav-link" href="<?php echo $basePath; ?>views/dashboard.php">Mon Compte</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="../views/logout.php">Déconnexion</a>
+                            <a class="nav-link" href="<?php echo $basePath; ?>views/logout.php">Déconnexion</a>
                         </li>
                     <?php else: ?> <!-- Si l'utilisateur n'est pas connecté -->
                         <li class="nav-item">

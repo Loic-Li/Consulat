@@ -24,7 +24,11 @@
         <div class="container-fluid">
             <div class="d-flex align-items-center">
                 <img src="<?php echo $basePath; ?>assets/img/china-flag.png" alt="Drapeau de la Chine" class="navbar-flag me-2">
-                <a class="navbar-brand text-light m-0 title" href="../index.php" onclick="return currentPageCheck('../index.php')">Consulat de Chine</a>
+                <a class="navbar-brand text-light m-0 title"
+                    href="<?php echo $isOnIndex ? '#' : '../index.php'; ?>"
+                    <?php echo $isOnIndex ? 'onclick="return false;"' : ''; ?>>
+                    Consulat de Chine
+                </a>
             </div>
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -42,12 +46,6 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="../culture.php">Culture</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="../contact.php">Contact</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Mon Compte</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="../logout.php">Déconnexion</a>

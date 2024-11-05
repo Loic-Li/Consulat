@@ -11,7 +11,7 @@ require_once '../includes/header.php';
 <div class="container">
     <div class="form-container">
         <h2 class="text-center">Demande de VISA</h2>
-        <form action="submit_visa_request.php" method="post">
+        <form action="submit_visa_request.php" method="post" enctype="multipart/form-data"> <!-- Ajout de enctype -->
             <div class="mb-3">
                 <label for="firstName" class="form-label">Prénom</label>
                 <input type="text" class="form-control" id="firstName" name="firstName" required>
@@ -40,11 +40,38 @@ require_once '../includes/header.php';
                 <label for="phone" class="form-label">Numéro de Téléphone</label>
                 <input type="tel" class="form-control" id="phone" name="phone" required>
             </div>
+
+            <!-- Champs de téléchargement pour chaque document -->
+            <div class="mb-3">
+                <label for="identityDocument" class="form-label">Pièce d'Identité</label>
+                <input type="file" class="form-control" id="identityDocument" name="identityDocument" accept=".jpg,.jpeg,.png,.pdf" required>
+                <div class="form-text">Format accepté : JPG, JPEG, PNG, PDF.</div>
+            </div>
+
+            <div class="mb-3">
+                <label for="addressProof" class="form-label">Justificatif de Domicile</label>
+                <input type="file" class="form-control" id="addressProof" name="addressProof" accept=".jpg,.jpeg,.png,.pdf" required>
+                <div class="form-text">Format accepté : JPG, JPEG, PNG, PDF.</div>
+            </div>
+
+            <div class="mb-3">
+                <label for="passportPhoto" class="form-label">Photo Passeport</label>
+                <input type="file" class="form-control" id="passportPhoto" name="passportPhoto" accept=".jpg,.jpeg,.png" required>
+                <div class="form-text">Format accepté : JPG, JPEG, PNG.</div>
+            </div>
+
+            <div class="mb-3">
+                <label for="photo" class="form-label">Photo</label>
+                <input type="file" class="form-control" id="Photo" name="Photo" accept=".jpg,.jpeg,.png" required>
+                <div class="form-text">Format accepté : JPG, JPEG, PNG.</div>
+            </div>
+
             <button type="submit" class="btn btn-primary w-100">Soumettre la Demande</button>
         </form>
     </div>
 </div>
-
+<br><br><br><br><br>
 
 <?php
-include_once('../includes/footer.php'); ?>
+include_once('../includes/footer.php');
+?>

@@ -36,3 +36,9 @@ CREATE TABLE sessions (
     logout_time TIMESTAMP NULL,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
+
+CREATE TABLE lottery_schedule (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    last_run TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+INSERT INTO lottery_schedule (last_run) VALUES (NOW());

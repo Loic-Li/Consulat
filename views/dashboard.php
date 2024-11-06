@@ -12,7 +12,7 @@ if ($isLoggedIn) {
 
     // Requête pour récupérer les informations de l'utilisateur
     $sql = "SELECT first_name FROM users WHERE id = :user_id"; // Utiliser un paramètre nommé
-    $stmt = $conn->prepare($sql);
+    $stmt = $pdo->prepare($sql);
 
     // Exécuter la requête avec le paramètre
     $stmt->execute([':user_id' => $user_id]);
@@ -39,9 +39,12 @@ require_once '../includes/header.php';
 <!-- Contenu de la page -->
 <div class="container mt-5">
     <h1 class="text-center">Bienvenue, <?php echo htmlspecialchars($user['first_name'] ?? ''); ?>!</h1>
-    <p class="text-center">Vous êtes connecté avec succès.</p>
+    <p class="text-center">Vous êtes connecté avec succès.</p><br><br><br>
     <div class="text-center">
-        <a href="visa.php" class="btn btn-danger">Demande de VISA</a>
+        <a href="visa.php" class="btn btn-danger">Accès à la demande de VISA</a>
+    </div><br><br>
+    <div class="text-center">
+        <a href="lottery.php" class="btn btn-danger">Accès à la lottery</a>
     </div>
 </div>
 

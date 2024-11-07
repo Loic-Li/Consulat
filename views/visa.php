@@ -1,5 +1,10 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 session_start();
+$isOnIndex = false;
 $title = "Demande de VISA";
 
 $cssFiles = 'visa';
@@ -13,7 +18,6 @@ $tarifsNationalites = [
     'Allemande' => 55,
     'Américaine' => 70,
     'Autre' => 60,
-    // Pas de tarif pour les Chinois
 ];
 
 // Tarifs en fonction de la durée de séjour (en jours)
@@ -39,6 +43,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $tarifTotal = $tarifsNationalites[$nationality] ?? $tarifsNationalites['Autre'];
         $tarifTotal += $tarifDureeSejour[$sejour];
     }
+
+    // On passe le tarif total à la page suivante (payment.php)
+    $_SESSION['tarifTotal'] = $tarifTotal;
+
+    // Redirection vers la page de paiement
+    header("Location: payment.php");
+    exit();
 }
 ?>
 
@@ -71,7 +82,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
 
     <div class="form-container">
-        <form action="submit_visa_request.php" method="post" enctype="multipart/form-data">
+        <!-- Formulaire de demande -->
+        <form action="visa.php" method="post" enctype="multipart/form-data">
             <!-- Formulaire des informations personnelles -->
             <div class="mb-3">
                 <label for="firstName" class="form-label">Prénom</label>
@@ -91,8 +103,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <option value="Française">Française</option>
                     <option value="Allemande">Allemande</option>
                     <option value="Américaine">Américaine</option>
-                    <option value="Chinoise">Chinoise</option>
                     <option value="Autre">Autre</option>
+                    <option value="Chinoise">Chinoise</option> <!-- Ajout de la nationalité Chinoise -->
                 </select>
             </div>
             <div class="mb-3">
@@ -134,12 +146,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <input type="file" class="form-control" id="passportPhoto" name="passportPhoto" accept=".jpg,.jpeg,.png" required>
             </div>
 
-            <button type="submit" class="btn btn-primary w-100">Soumettre la Demande</button>
+            <!-- Champ caché pour envoyer le tarif calculé -->
+            <input type="hidden" id="tarifTotal" name="tarifTotal" value="0">
+
+
+            <button type="submit" class="btn btn-primary w-100" id="submitBtn">Soumettre la Demande</button>
         </form>
 
         <!-- Affichage du tarif calculé -->
         <div class="alert alert-success mt-4">
-            <h5>Coût de votre demande : <strong><?php echo $tarifTotal; ?>€</strong></h5>
+            <h5>Coût de votre demande : <strong id="tarifDisplay">0€</strong></h5>
         </div>
     </div>
 </div>
@@ -148,52 +164,45 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     document.addEventListener('DOMContentLoaded', function () {
         const nationalitySelect = document.getElementById('nationality');
         const sejourSelect = document.getElementById('sejour');
-        const tarifDiv = document.querySelector('.alert-success h5');
+        const tarifDisplay = document.getElementById('tarifDisplay');
+        const tarifInput = document.getElementById('tarifTotal');
+        const submitBtn = document.getElementById('submitBtn');
 
         function updateTarif() {
             const nationality = nationalitySelect.value;
             const sejour = sejourSelect.value;
             let tarifTotal = 0;
 
-            // Tarifs en fonction de la nationalité
             const tarifsNationalites = {
                 'Française': 50,
                 'Allemande': 55,
                 'Américaine': 70,
                 'Autre': 60,
+                'Chinoise': 0 // Ajout d'un tarif pour les Chinois
             };
 
-            // Tarifs en fonction de la durée de séjour
             const tarifDureeSejour = {
                 '30': 50,
                 '60': 75,
                 '90': 100,
                 '180': 150,
-                '365': 200,
+                '365': 200
             };
 
-            // Si la nationalité est chinoise, on applique 0€
-            if (nationality === 'Chinoise') {
-                tarifTotal = 0;
-            } else {
-                // Calcul du tarif en fonction de la nationalité et de la durée du séjour
-                tarifTotal = tarifsNationalites[nationality] || tarifsNationalites['Autre'];
-                tarifTotal += tarifDureeSejour[sejour] || tarifDureeSejour['30'];
+            if (nationality !== 'Chinoise') {
+                tarifTotal += tarifsNationalites[nationality] || tarifsNationalites['Autre'];
+                tarifTotal += tarifDureeSejour[sejour] || tarifDureeSejour['30']; // Si la durée est invalide, on met 30 jours
             }
 
-            // Mettre à jour le coût de la demande affiché
-            tarifDiv.innerHTML = `Coût de votre demande : <strong>${tarifTotal}€</strong>`;
+            tarifDisplay.innerHTML = tarifTotal + '€';
+            tarifInput.value = tarifTotal;
         }
 
-        // Mettre à jour le tarif dès qu'un des champs est modifié
         nationalitySelect.addEventListener('change', updateTarif);
         sejourSelect.addEventListener('change', updateTarif);
 
-        // Initialiser le tarif au chargement de la page
         updateTarif();
     });
 </script>
 
-<?php
-include_once('../includes/footer.php');
-?>
+<?php require_once '../includes/footer.php'; ?>

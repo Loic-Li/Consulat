@@ -13,7 +13,6 @@ $isLoggedIn = isset($_SESSION['user_id']);
 $title = "National Lottery";
 include_once '../includes/header.php';
 
-
 // Vérifier la dernière exécution de la loterie
 $scheduleQuery = "SELECT last_run, winner_id FROM lottery_schedule WHERE id = 1";
 $scheduleStmt = $pdo->query($scheduleQuery);
@@ -112,10 +111,15 @@ function runLottery($pdo) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['manual_draw'])) {
-    $winnerName = runLottery($pdo);
+    // Vérifier si l'utilisateur connecté a l'ID 1
+    if ($_SESSION['user_id'] == 1) {
+        $winnerName = runLottery($pdo);
 
-    $updateScheduleQuery = "UPDATE lottery_schedule SET last_run = NOW(), winner_id = (SELECT id FROM users WHERE first_name = :winner_first_name AND last_name = :winner_last_name LIMIT 1) WHERE id = 1";
-    $pdo->prepare($updateScheduleQuery)->execute([':winner_first_name' => explode(' ', $winnerName)[0], ':winner_last_name' => explode(' ', $winnerName)[1]]);
+        $updateScheduleQuery = "UPDATE lottery_schedule SET last_run = NOW(), winner_id = (SELECT id FROM users WHERE first_name = :winner_first_name AND last_name = :winner_last_name LIMIT 1) WHERE id = 1";
+        $pdo->prepare($updateScheduleQuery)->execute([':winner_first_name' => explode(' ', $winnerName)[0], ':winner_last_name' => explode(' ', $winnerName)[1]]);
+    } else {
+        echo "Vous n'êtes pas autorisé à lancer la loterie.";
+    }
 }
 
 $nextDrawMessage = "Tirage en attente...";
@@ -149,11 +153,13 @@ if ($lastRunDate > $oneWeekAgo) {
         } ?>
     </p>
 
-    <!-- Ajouter un bouton pour lancer le tirage manuellement -->
-    <?php if ($isLoggedIn): ?>
+    <!-- Ajouter un bouton pour lancer le tirage manuellement uniquement si l'utilisateur a l'ID 1 -->
+    <?php if ($isLoggedIn && $_SESSION['user_id'] == 1): ?>
         <form method="POST">
             <button type="submit" name="manual_draw" class="btn btn-primary">Lancer la loterie manuellement</button>
         </form>
+    <?php elseif ($isLoggedIn): ?>
+        <p>Vous devez être l'utilisateur administrateur pour exécuter cette action.</p>
     <?php else: ?>
         <p>Vous devez être connecté pour exécuter cette action.</p>
     <?php endif; ?>
@@ -176,13 +182,12 @@ if ($lastRunDate > $oneWeekAgo) {
             var hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             var minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
             var seconds = Math.floor((diff % (1000 * 60)) / 1000);
-            document.getElementById("countdown").innerText = days + " jours " + hours + "h " + minutes + "m " + seconds + "s ";
+            document.getElementById("countdown").innerText = days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
         }
     }
 
-    var countdownInterval = setInterval(updateCountdown, 2000);
-<?php else: ?>
-    document.getElementById("countdown").innerText = "Prochain tirage disponible !";
+    var countdownInterval = setInterval(updateCountdown, 1000);
+    updateCountdown();  // Call immediately to show the initial countdown.
 <?php endif; ?>
 </script>
 

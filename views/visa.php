@@ -11,6 +11,26 @@ $cssFiles = 'visa';
 $isLoggedIn = isset($_SESSION['user_id']);
 
 require_once '../includes/header.php';
+require_once '../config/db.php';
+
+$user_id = $_SESSION['user_id'];
+// Préparer et exécuter la requête pour récupérer les informations de l'utilisateur
+$stmt = $pdo->prepare("SELECT first_name, last_name, email, phone FROM users WHERE id = :user_id");
+$stmt->execute([':user_id' => $user_id]);
+
+// Vérifier si l'utilisateur existe
+$user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+if ($user) {
+    // Affichage des informations de l'utilisateur
+    $first_name = $user['first_name'];
+    $last_name = $user['last_name'];
+    $email = $user['email'];
+    $phone = $user['phone'];
+} else {
+    // Si l'utilisateur n'est pas trouvé dans la base de données
+    echo "Aucun utilisateur trouvé.";
+}
 
 // Tarifs en fonction de la nationalité
 $tarifsNationalites = [
@@ -51,6 +71,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     header("Location: payment.php");
     exit();
 }
+
+
 ?>
 
 <div class="container mt-5">
@@ -87,11 +109,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <!-- Formulaire des informations personnelles -->
             <div class="mb-3">
                 <label for="firstName" class="form-label">Prénom</label>
-                <input type="text" class="form-control" id="firstName" name="firstName" required>
+                <input type="text" class="form-control" id="firstName" name="firstName" value="<?php echo htmlspecialchars($first_name); ?>" readonly required>
             </div>
+
             <div class="mb-3">
                 <label for="lastName" class="form-label">Nom</label>
-                <input type="text" class="form-control" id="lastName" name="lastName" required>
+                <input type="text" class="form-control" id="lastName" name="lastName" value="<?php echo htmlspecialchars($last_name); ?>" readonly required>
             </div>
             <div class="mb-3">
                 <label for="dob" class="form-label">Date de Naissance</label>
@@ -104,20 +127,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <option value="Allemande">Allemande</option>
                     <option value="Américaine">Américaine</option>
                     <option value="Autre">Autre</option>
-                    <option value="Chinoise">Chinoise</option> <!-- Ajout de la nationalité Chinoise -->
                 </select>
             </div>
             <div class="mb-3">
-                <label for="passportNumber" class="form-label">Numéro de Passeport</label>
-                <input type="text" class="form-control" id="passportNumber" name="passportNumber" required>
+                <label for="passportNumber" class="form-label">Numéro de passeport</label>
+                <input type="text" class="form-control" id="passportNumber" name="passportNumber" placeholder="AB1234567" required maxlength="9">
             </div>
+            <!-- Email pré-rempli -->
             <div class="mb-3">
                 <label for="email" class="form-label">Email</label>
-                <input type="email" class="form-control" id="email" name="email" required>
+                <input type="email" class="form-control" id="email" name="email" value="<?php echo htmlspecialchars($email); ?>" readonly required>
             </div>
+
+            <!-- Téléphone pré-rempli -->
             <div class="mb-3">
-                <label for="phone" class="form-label">Numéro de Téléphone</label>
-                <input type="tel" class="form-control" id="phone" name="phone" required>
+                <label for="phone" class="form-label">Numéro de téléphone</label>
+                <input type="text" class="form-control" id="phone" name="phone" value="<?php echo htmlspecialchars($phone); ?>" readonly required>
             </div>
 
             <!-- Sélection de la durée du séjour -->
@@ -160,49 +185,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
 </div>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const nationalitySelect = document.getElementById('nationality');
-        const sejourSelect = document.getElementById('sejour');
-        const tarifDisplay = document.getElementById('tarifDisplay');
-        const tarifInput = document.getElementById('tarifTotal');
-        const submitBtn = document.getElementById('submitBtn');
-
-        function updateTarif() {
-            const nationality = nationalitySelect.value;
-            const sejour = sejourSelect.value;
-            let tarifTotal = 0;
-
-            const tarifsNationalites = {
-                'Française': 50,
-                'Allemande': 55,
-                'Américaine': 70,
-                'Autre': 60,
-                'Chinoise': 0 // Ajout d'un tarif pour les Chinois
-            };
-
-            const tarifDureeSejour = {
-                '30': 50,
-                '60': 75,
-                '90': 100,
-                '180': 150,
-                '365': 200
-            };
-
-            if (nationality !== 'Chinoise') {
-                tarifTotal += tarifsNationalites[nationality] || tarifsNationalites['Autre'];
-                tarifTotal += tarifDureeSejour[sejour] || tarifDureeSejour['30']; // Si la durée est invalide, on met 30 jours
-            }
-
-            tarifDisplay.innerHTML = tarifTotal + '€';
-            tarifInput.value = tarifTotal;
-        }
-
-        nationalitySelect.addEventListener('change', updateTarif);
-        sejourSelect.addEventListener('change', updateTarif);
-
-        updateTarif();
-    });
-</script>
-
-<?php require_once '../includes/footer.php'; ?>
+<?php
+$jsFile = 'visa';
+require_once '../includes/footer.php'; ?>

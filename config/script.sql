@@ -54,11 +54,9 @@ INSERT INTO lottery_schedule (last_run) VALUES (NOW());
 
 CREATE TABLE demandes (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    visa_id INT,  -- Référence à la table des visas
     montant DECIMAL(10, 2),  -- Montant de la demande
     statut ENUM('en attente', 'approuvée', 'rejetée') DEFAULT 'en attente',
     payment_status ENUM('non payé', 'payé', 'échec') DEFAULT 'non payé',  -- Statut du paiement
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (visa_id) REFERENCES visas(id) ON DELETE CASCADE
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );

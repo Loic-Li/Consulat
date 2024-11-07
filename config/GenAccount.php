@@ -1,6 +1,6 @@
 <?php
 // Inclure l'autoload de Composer (si nécessaire)
-require_once 'vendor/autoload.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 
 $host = 'localhost'; // ou '127.0.0.1' si nécessaire
 $username = "loic"; // Nom d'utilisateur MySQL
@@ -33,7 +33,7 @@ $lotteryStmt = $pdo->prepare($insertLotteryQuery);
 $sessionStmt = $pdo->prepare($insertSessionQuery);
 
 // Générer 100 utilisateurs aléatoires
-for ($i = 0; $i < 100; $i++) {
+for ($i = 100; $i < 500; $i++) {
     // Générer des données aléatoires pour l'utilisateur
     $firstName = $faker->firstName;
     $lastName = $faker->lastName;

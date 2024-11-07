@@ -88,20 +88,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </select>
         </div>
 
-        <div class="mb-3">
-            <label for="cardNumber" class="form-label">Numéro de carte de crédit</label>
-            <input type="text" class="form-control" id="cardNumber" name="cardNumber" placeholder="**** **** **** ****" required>
-        </div>
+    <!-- Numéro de carte de crédit avec un masque -->
+    <div class="mb-3">
+        <label for="cardNumber" class="form-label">Numéro de carte de crédit</label>
+        <input type="text" class="form-control" id="cardNumber" name="cardNumber" placeholder="**** **** **** ****" required pattern="\d{4} \d{4} \d{4} \d{4}" maxlength="19">
+    </div>
 
-        <div class="mb-3">
-            <label for="expirationDate" class="form-label">Date d'expiration</label>
-            <input type="month" class="form-control" id="expirationDate" name="expirationDate" required>
-        </div>
+    <!-- Sélecteur de la date d'expiration -->
+    <div class="mb-3">
+        <label for="expirationDate" class="form-label">Date d'expiration</label>
+        <input type="text" class="form-control" id="expirationDate" name="expirationDate" placeholder="MM/AA" required maxlength="5">
+    </div>
 
-        <div class="mb-3">
-            <label for="cvv" class="form-label">CVV</label>
-            <input type="text" class="form-control" id="cvv" name="cvv" placeholder="***" required>
-        </div>
+    <!-- CVV -->
+    <div class="mb-3">
+        <label for="cvv" class="form-label">CVV</label>
+        <input type="text" class="form-control" id="cvv" name="cvv" placeholder="***" required pattern="\d{3}" maxlength="3">
+    </div>
 
         <!-- Champ caché pour envoyer le tarif total -->
         <input type="hidden" name="tarifTotal" value="<?php echo $tarifTotal; ?>">
@@ -119,4 +122,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 </div>
 
-<?php require_once '../includes/footer.php'; ?>
+<?php
+$jsFile = 'payment';
+require_once '../includes/footer.php'; ?>

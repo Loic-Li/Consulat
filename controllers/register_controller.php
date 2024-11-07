@@ -1,3 +1,4 @@
+
 <?php
 session_start();
 require_once '../config/db.php'; // Inclure le fichier de connexion à la base de données
@@ -37,26 +38,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Hasher le mot de passe
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-        // Préparer et exécuter la requête
-        $stmt = $conn->prepare("INSERT INTO users (first_name, last_name, email, phone, password) VALUES (?, ?, ?, ?, ?)");
-        $stmt->bind_param("sssss", $firstName, $lastName, $email, $phone, $hashedPassword);
+        try {
+            // Préparer et exécuter la requête
+            $stmt = $pdo->prepare("INSERT INTO users (first_name, last_name, email, phone, password) VALUES (?, ?, ?, ?, ?)");
+            $stmt->execute([$firstName, $lastName, $email, $phone, $hashedPassword]);
 
-        if ($stmt->execute()) {
             // Redirection vers une page de succès après l'inscription réussie
-            header('Location: ../views/test.php'); // Changez le chemin si nécessaire
+            $_SESSION['success'] = "Inscription réussie ! Vous pouvez maintenant vous connecter.";
+            header('Location: ../views/dashboard.php');
             exit;
-        } else {
+        } catch (PDOException $e) {
             // Gérer l'erreur de la requête
-            $errors['general'] = "Une erreur s'est produite lors de l'inscription : " . $stmt->error;
+            $errors['general'] = "Une erreur s'est produite lors de l'inscription : " . $e->getMessage();
         }
-
-        $stmt->close(); // Fermer la déclaration
     }
 
     // Si des erreurs existent, les stocker dans la session et rediriger
     $_SESSION['errors'] = $errors;
-    header('Location: ../views/register.php');
+    header('Location: ../views/register.php'); // Redirection vers la page d'inscription
     exit;
 }
 
-$conn->close(); // Fermer la connexion à la base de données
+// Fermeture de la connexion PDO n'est pas nécessaire, il est géré automatiquement.
+
+
+?>

@@ -1,10 +1,13 @@
 <?php
-session_start();
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
+session_start();
+$isOnIndex = false;
 $title = "Page de Paiement";
 $cssFiles = 'payment';
 $isLoggedIn = isset($_SESSION['user_id']);
-
 require_once '../includes/header.php';
 
 // Vérifie si les informations nécessaires sont disponibles dans la session
@@ -15,8 +18,53 @@ if (!isset($_SESSION['tarifTotal'])) {
 }
 
 $tarifTotal = $_SESSION['tarifTotal'];  // Récupère le tarif total depuis la session
-$nationality = $_SESSION['nationality'];  // Récupère la nationalité depuis la session
-$sejour = $_SESSION['sejour'];  // Récupère la durée du séjour depuis la session
+
+// Traitement du paiement si le formulaire est soumis
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    // Simuler le paiement (vous pouvez remplacer cette logique avec un véritable système de paiement)
+    $paymentSuccess = true; // Ici, vous simulez que le paiement est toujours réussi
+
+    if ($paymentSuccess) {
+        // Connexion à la base de données
+        require_once '../config/db.php'; // Assurez-vous d'inclure votre fichier de connexion
+
+        // Convertir le montant en float
+        $montant = floatval($_POST['tarifTotal']);
+
+        try {
+            // Insertion des données dans la table 'demandes' après le paiement
+            $sql = "INSERT INTO demandes (montant, statut, payment_status)
+                    VALUES (:montant, 'en attente', 'non payé')";
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute([
+                ':montant' => $montant
+            ]);
+
+            // Récupérer l'ID de la dernière insertion
+            $demandes_id = $pdo->lastInsertId();
+
+            // Mise à jour du statut du paiement après insertion
+            $updateSql = "UPDATE demandes SET payment_status = 'payé' WHERE id = :id";
+            $updateStmt = $pdo->prepare($updateSql);
+            $updateStmt->execute([
+                ':id' => $demandes_id
+            ]);
+
+            // Message de succès
+            $paymentMessage = "Paiement effectué avec succès ! Votre demande a été enregistrée.";
+
+            // Redirection après paiement réussi
+            header("Location: dashboard.php"); // Assurez-vous de créer cette page
+            exit();
+        } catch (PDOException $e) {
+            // En cas d'erreur avec la base de données
+            $paymentMessage = "Une erreur est survenue lors de l'enregistrement du paiement. Veuillez réessayer.";
+        }
+    } else {
+        $paymentMessage = "Le paiement a échoué. Veuillez réessayer.";
+    }
+}
+
 ?>
 
 <div class="container mt-5">
@@ -31,7 +79,7 @@ $sejour = $_SESSION['sejour'];  // Récupère la durée du séjour depuis la ses
     </div>
 
     <!-- Formulaire de paiement -->
-    <form action="../controllers/process_payment.php" method="POST">
+    <form action="payment.php" method="POST">
         <h4>Mode de Paiement</h4>
         <div class="mb-3">
             <label for="paymentMethod" class="form-label">Choisissez votre méthode de paiement</label>
@@ -62,10 +110,13 @@ $sejour = $_SESSION['sejour'];  // Récupère la durée du séjour depuis la ses
         <button type="submit" class="btn btn-primary w-100" id="submitBtn">Payer <?php echo $tarifTotal; ?>€</button>
     </form>
 
-    <!-- Si un utilisateur n'a pas encore payé, afficher un message indiquant qu'il doit effectuer le paiement -->
-    <div class="alert alert-warning mt-4" id="paymentStatus">
-        <p>Votre paiement est nécessaire pour finaliser votre demande de VISA.</p>
-    </div>
+    <!-- Message de statut du paiement -->
+    <?php if (isset($paymentMessage)): ?>
+        <div class="alert alert-info mt-4">
+            <p><?php echo $paymentMessage; ?></p>
+        </div>
+    <?php endif; ?>
+
 </div>
 
 <?php require_once '../includes/footer.php'; ?>

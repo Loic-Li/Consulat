@@ -1,7 +1,7 @@
 <?php
 session_start();
 $isLoggedIn = isset($_SESSION['user_id']);
-
+$title = "La Chine";
 $cssFile='country' ?>
 <?php include '../includes/header.php'; ?>
 

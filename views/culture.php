@@ -1,8 +1,9 @@
 <?php
 session_start();
 $isLoggedIn = isset($_SESSION['user_id']);
-$cssFile='culture' ?>
-<?php include '../includes/header.php'; ?>
+$title = "Culture Chinoise";
+$cssFile='culture';
+include '../includes/header.php'; ?>
 
     <header class="text-center py-5">
         <h1>La culture Chinoise</h1>

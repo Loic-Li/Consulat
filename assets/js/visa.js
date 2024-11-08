@@ -49,3 +49,17 @@ document.getElementById('passportNumber').addEventListener('input', function (e)
     // Exemple simple : laissez l'utilisateur saisir jusqu'à 9 caractères (lettres et chiffres)
     e.target.value = value.toUpperCase(); // Mettre les lettres en majuscules
 });
+
+
+document.getElementById('dob').addEventListener('change', function() {
+    const dob = new Date(this.value);
+    const today = new Date();
+    const dobError = document.getElementById('dobError');
+
+    if (dob > today) {
+        dobError.style.display = 'block';
+        this.value = ''; // Réinitialise le champ
+    } else {
+        dobError.style.display = 'none';
+    }
+});

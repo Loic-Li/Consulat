@@ -118,7 +118,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
             <div class="mb-3">
                 <label for="dob" class="form-label">Date de Naissance</label>
-                <input type="date" class="form-control" id="dob" name="dob" required>
+                <input type="date" class="form-control" id="dob" name="dob" required max="<?php echo date('Y-m-d'); ?>">
+                <span id="dobError" class="text-danger" style="display: none;">La date de naissance ne peut pas être supérieure à aujourd'hui.</span>
             </div>
             <div class="mb-3">
                 <label for="nationality" class="form-label">Nationalité</label>
